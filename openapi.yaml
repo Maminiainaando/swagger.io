@@ -1,0 +1,209 @@
+openapi: 3.0.3
+info:
+  title: Onboarding API 3.0
+  description: STD22100 
+  version: 1.0.11
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+paths:
+  /Sudent:
+    put:
+      tags:
+        - Student
+      summary: Update an existing student
+      description: Update an existing pet by Id
+      operationId: updatePet
+      requestBody:
+        description: Update an existent pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Student
+      summary: Add a new student
+      description: Add a new pet to the store
+      operationId: addPet
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '405':
+          description: Invalid input
+  /Student/findByStatus:
+    get:
+      tags:
+        - Student
+      summary: Show a student
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetsByStatus
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: available
+            enum:
+              - available
+              - pending
+              - sold
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '400':
+          description: Invalid status value
+  /Student:
+    delete:
+      tags:
+        - Student
+      summary: Deletes a students
+      description: delete a pet
+      operationId: deletePet
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid pet value
+  /Teacher:
+    get:
+      tags:
+        - Teacher
+      summary: Show the teacher
+      description: Returns a map of status codes to quantities
+      operationId: getInventory
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+  /Teacher/order:
+    post:
+      tags:
+        - Teacher
+      summary: Add a teacher
+      description: Place a new order in the store
+      operationId: placeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+        '405':
+          description: Invalid input
+components:
+  schemas:
+    Student:
+      type: object
+      properties:
+        name:
+          type: integer
+          format: int64
+          example: 10
+        std:
+          type: integer
+          format: int64
+          example: 198772
+        birthDate:
+          type: string
+          format: date-time
+        complete:
+          type: boolean
+      xml:
+        name: order
+    Teacher:
+      type: object
+      properties:
+        firstname:
+          type: string
+          format: string
+          example: RAMAROZAKA
+        lastname:
+          type: string
+          example: Tokymahery
+        subject:
+          type: array
+          items:
+            type: string
+            example: ["prog","web","donné"]
+      xml:
+        name: user
